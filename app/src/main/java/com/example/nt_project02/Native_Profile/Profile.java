@@ -17,6 +17,8 @@ import com.example.nt_project02.Chat.UserModel;
 import com.example.nt_project02.R;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 
 public class Profile extends AppCompatActivity implements ViewPager.OnPageChangeListener {
@@ -30,6 +32,9 @@ public class Profile extends AppCompatActivity implements ViewPager.OnPageChange
     private TextView self_info_text;
     private ImageView profile_image;
     private String uid;
+    private Button activity_profile_BookMark;
+    private DocumentReference Ref;
+    private FirebaseFirestore db;
 
     private void initializeViewPager() {
         // 각 review 의 내용들을 표시관련
@@ -75,6 +80,8 @@ public class Profile extends AppCompatActivity implements ViewPager.OnPageChange
 
 
 
+
+
         initializeViewPager();
         initializeTabLayout();
 
@@ -91,6 +98,8 @@ public class Profile extends AppCompatActivity implements ViewPager.OnPageChange
         nick_text=(TextView) findViewById(R.id.nickAgeTV);
         self_info_text=(TextView) findViewById(R.id.Self_info_TextView);
         profile_image=(ImageView) findViewById(R.id.profile_Image);
+        activity_profile_BookMark=(Button) findViewById(R.id.activity_profile_BookMark);
+
 
         nick_text.setText(userModel.getNick());
         self_info_text.setText(userModel.getSelf_info());
@@ -115,6 +124,17 @@ public class Profile extends AppCompatActivity implements ViewPager.OnPageChange
                     intent.putExtra("destination_Uid", destinationUid);
                     startActivity(intent);
                 }
+
+            }
+        });
+
+        activity_profile_BookMark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Ref=db.collection("users").document(FirebaseAuth.getInstance().getUid());
+                db = FirebaseFirestore.getInstance();
+
+
 
             }
         });
